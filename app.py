@@ -1,5 +1,6 @@
 import sqlite3
-from flask import Flask, jsonify, g
+import json
+from flask import Flask, jsonify, g, request
 
 DATABASE = 'movies.db'
 
@@ -32,8 +33,8 @@ def close_connection(exception):
         db.close()
 
 
-@app.route('/stuff/api/v1.0/items', methods=['GET'])
-def index():
+@app.route('/movies/api/v1.0/get_movies', methods=['GET'])
+def get_movies():
     # Open database and create a cursor
     cur = get_db().cursor()
     # Execute query
@@ -42,6 +43,18 @@ def index():
     res = cur.fetchall()
     # Create json out of the dictionary and return it to the api
     return jsonify({'movies': res})
+
+@app.route('/movies/api/v1.0/get_movie', methods=['POST'])
+def get_movie():
+    # Open database and create a cursor
+    cur = get_db().cursor()
+    # Execute query
+    cur.execute('select * from movies where movie_title = ? order by movie_title',
+                (json.loads(request.data)['show_me_what_you_got'],))
+    # Get the results from the executed query in a dictionary
+    res = cur.fetchone()
+    # Create json out of the dictionary and return it to the api
+    return jsonify({'movie': res})
 
 if __name__ == "__main__":
     app.run(debug=True)
