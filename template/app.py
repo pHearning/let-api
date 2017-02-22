@@ -1,8 +1,9 @@
 import sqlite3
 import json
+import os
 from flask import Flask, jsonify, g, request
 
-DATABASE = 'movies.db'
+DATABASE = os.path.abspath(os.path.join(os.getcwd(), 'db', 'movies.db'))
 
 app = Flask(__name__)
 
