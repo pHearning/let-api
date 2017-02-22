@@ -97,6 +97,3 @@ def get_movie():
     res = cur.fetchone()
     # Create json out of the dictionary and return it to the api
     return jsonify({'movie': res})
-
-if __name__ == "__main__":
-    app.run(debug=True)
