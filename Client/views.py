@@ -1,4 +1,4 @@
-from api_client import Api
+from .api_client import Api
 from flask import Flask, render_template
 import json
 
