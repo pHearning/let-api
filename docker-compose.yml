@@ -1,10 +1,13 @@
-let-api:
-  build: .
-loadbalancer:
-  image: 'dockercloud/haproxy:latest'
-  links:
-    - let-api
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  ports:
-    - 80:80
+version: '2'
+services:
+  let-api:
+    build: .
+  loadbalancer:
+    image: 'dockercloud/haproxy:latest'
+    links:
+      - let-api
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 1936:1936
+      - 80:80
